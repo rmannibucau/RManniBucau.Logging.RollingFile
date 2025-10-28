@@ -112,7 +112,7 @@ public class RollingFileProviderTests
             Encoding.UTF8
         );
         var content = input.ReadToEnd();
-        Assert.Equal("[2024-07-14T08:00:00.0000000][Information][rmannibucau.Archive.1] this is great\n", content);
+        Assert.Equal($"[2024-07-14T08:00:00.0000000][Information][rmannibucau.Archive.1] this is great{Environment.NewLine}", content);
     }
 
     [Fact]

@@ -156,13 +156,11 @@ internal class MessageQueue : IDisposable
         if (_options.Archive && _lastPath is not null)
         {
             var gzPath = $"{_lastPath}.gz";
-            using FileStream sourceFileStream = new(_lastPath, FileMode.Open, FileAccess.Read);
-            using GZipStream compressionStream =
-                new(
-                    new FileStream(gzPath, FileMode.Create, FileAccess.Write),
-                    CompressionMode.Compress
-                );
-            sourceFileStream.CopyTo(compressionStream);
+            using (FileStream sourceFileStream = new FileStream(_lastPath, FileMode.Open, FileAccess.Read))
+            { 
+                using GZipStream compressionStream = new(new FileStream(gzPath, FileMode.Create, FileAccess.Write), CompressionMode.Compress);
+                sourceFileStream.CopyTo(compressionStream);
+            };
             File.Delete(_lastPath);
         }
         if (_options.MaxDays > 0)
